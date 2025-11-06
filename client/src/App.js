@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -103,6 +103,9 @@ function playSound(type) {
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.05);
       break;
+    default:
+      // デフォルトの場合は何もしない
+      break;
   }
 }
 
@@ -133,27 +136,27 @@ function App() {
   const [showGame, setShowGame] = useState(false);
 
   // 統計情報を取得
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/stats`);
       setStats(response.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
   // カテゴリ一覧を取得
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/categories`);
       setCategories(response.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
   // すべてのtodoを取得
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -175,11 +178,11 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter, sort, search, selectedCategory, selectedPriority, showArchived, fetchStats, fetchCategories]);
 
   useEffect(() => {
     fetchTodos();
-  }, [filter, sort, search, selectedCategory, selectedPriority, showArchived]);
+  }, [fetchTodos]);
 
   // 新しいtodoを追加
   const addTodo = async (e) => {
@@ -726,6 +729,7 @@ function MiniGame({ onClose, onPlaySound }) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState]);
 
   // キーボードイベント
@@ -748,6 +752,7 @@ function MiniGame({ onClose, onPlaySound }) {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // クリーンアップ
@@ -841,7 +846,6 @@ function TodoItem({ todo, onToggle, onDelete, onUpdate, index, onPlaySound }) {
   const [editCategory, setEditCategory] = useState(todo.category || '');
   const [editTags, setEditTags] = useState(todo.tags ? todo.tags.join(', ') : '');
   const [isDeleting, setIsDeleting] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
