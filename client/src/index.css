@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #6BB3FF 0%, #7FC8F8 50%, #A8E6FF 100%);
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  /* スーパーマリオブラザーズの空の色 - 明るい水色 */
+  background: linear-gradient(to bottom, #6BB3FF 0%, #7FC8F8 50%, #A8E6FF 100%);
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.15) 2px, rgba(255, 255, 255, 0.15) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.1) 2px, rgba(255, 255, 255, 0.1) 4px);
+  min-height: 100vh;
+  padding: 20px;
+  color: #C85A4A;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 雲の装飾 - 白い雲に濃い青の縁取り */
+.cloud-1 {
+  content: '☁';
+  position: fixed;
+  top: 50px;
+  left: 10%;
+  font-size: 3rem;
+  opacity: 0.4;
+  color: white;
+  text-shadow: 
+    2px 2px 0 #1E3A8A,
+    -2px -2px 0 #1E3A8A,
+    2px -2px 0 #1E3A8A,
+    -2px 2px 0 #1E3A8A;
+  z-index: 0;
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cloud-2 {
+  content: '☁';
+  position: fixed;
+  top: 100px;
+  right: 15%;
+  font-size: 2rem;
+  opacity: 0.3;
+  color: white;
+  text-shadow: 
+    2px 2px 0 #1E3A8A,
+    -2px -2px 0 #1E3A8A,
+    2px -2px 0 #1E3A8A,
+    -2px 2px 0 #1E3A8A;
+  z-index: 0;
+  animation: float 25s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+}
+
+code {
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* スクロールバーのスタイル */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #6BB3FF;
+  border: 2px solid #C85A4A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C85A4A;
+  border: 2px solid #6BB3FF;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B85A4A;
+}
+
+/* 画面下部の装飾 - 地面ブロックのみ */
+.ground-decoration {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: 
+    /* レンガブロックの縦の線 */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 31px,
+      #5A2A1A 31px,
+      #5A2A1A 33px,
+      transparent 33px,
+      transparent 64px
+    ),
+    /* レンガブロックの横の線 */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 19px,
+      #5A2A1A 19px,
+      #5A2A1A 21px,
+      transparent 21px,
+      transparent 40px
+    ),
+    /* レンガブロックの基本色 */
+    repeating-linear-gradient(
+      90deg,
+      #C85A4A 0px,
+      #C85A4A 32px,
+      #B85A4A 32px,
+      #B85A4A 64px
+    );
+  background-size:
+    64px 40px,
+    100% 40px,
+    64px 40px;
+}

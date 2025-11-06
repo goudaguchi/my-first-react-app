@@ -1,0 +1,1752 @@
+@keyframes pixelate {
+  0%, 100% {
+    filter: none;
+  }
+  50% {
+    filter: contrast(1.2) brightness(1.1);
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(200, 90, 74, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(200, 90, 74, 0);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  padding-bottom: 60px;
+  position: relative;
+  background: transparent;
+}
+
+/* スキャンライン効果 */
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(248, 184, 0, 0.3);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.container {
+  /* ハテナブロックのような黄色がかった茶色の背景 */
+  background: #FFF8DC;
+  /* レンガブロックのような赤みがかった茶色のボーダー */
+  border: 4px solid #C85A4A;
+  border-radius: 0;
+  padding: 30px;
+  width: 100%;
+  max-width: 700px;
+  margin-top: 20px;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(200, 90, 74, 0.5),
+    inset 0 0 20px rgba(200, 90, 74, 0.1),
+    0 8px 0 #5A2A1A;
+  animation: slideIn 0.5s ease-out;
+  z-index: 10;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(45deg, #C85A4A, #B85A4A, #C85A4A);
+  z-index: -1;
+  animation: pulse 2s ease-in-out infinite;
+  opacity: 0.5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-bottom: 3px solid #C85A4A;
+  padding-bottom: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  /* クリーム色/オフホワイトのテキスト */
+  color: #FFF8DC;
+  margin: 0;
+  font-weight: normal;
+  text-shadow: 
+    2px 2px 0 #5A2A1A,
+    4px 4px 0 #3D1A0A,
+    0 0 10px rgba(200, 90, 74, 0.8);
+  letter-spacing: 2px;
+  line-height: 1.6;
+  animation: pixelate 3s ease-in-out infinite;
+}
+
+.title-icon {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+  margin-right: 10px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  padding: 15px 20px;
+  box-shadow: 
+    inset 0 0 10px rgba(200, 90, 74, 0.3),
+    0 0 10px rgba(200, 90, 74, 0.5),
+    0 4px 0 #5A2A1A;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-number {
+  font-size: 1.2rem;
+  /* ハテナブロックのような黄色がかった茶色 */
+  color: #F8B800;
+  text-shadow: 
+    1px 1px 0 #5A2A1A,
+    0 0 5px rgba(248, 184, 0, 0.8);
+}
+
+.stat-label {
+  font-size: 0.5rem;
+  color: #C85A4A;
+  text-transform: uppercase;
+}
+
+.stat-divider {
+  font-size: 1rem;
+  color: #C85A4A;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 20px;
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  margin-bottom: 25px;
+  position: relative;
+  box-shadow: 
+    inset 0 0 10px rgba(200, 90, 74, 0.3),
+    0 2px 0 #5A2A1A;
+}
+
+.progress-bar {
+  height: 100%;
+  /* ハテナブロックからレンガブロックへのグラデーション */
+  background: linear-gradient(to right, #F8B800, #C85A4A, #F8B800);
+  transition: width 0.5s ease-out;
+  box-shadow: 
+    0 0 10px rgba(200, 90, 74, 0.8),
+    inset 0 0 5px rgba(248, 184, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.3) 4px,
+    rgba(0, 0, 0, 0.3) 8px
+  );
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.error-message {
+  background: #FFF8DC;
+  color: #ff0000;
+  padding: 15px;
+  border: 3px solid #ff0000;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 
+    inset 0 0 10px rgba(255, 0, 0, 0.3),
+    0 0 10px rgba(255, 0, 0, 0.5);
+  animation: glitch 0.3s ease-in-out;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.error-icon {
+  font-size: 1rem;
+}
+
+.todo-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+  min-width: 200px;
+}
+
+.todo-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 0.7rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 3px solid #C85A4A;
+  border-radius: 0;
+  outline: none;
+  background: #FFF8DC;
+  color: #C85A4A;
+  transition: all 0.2s;
+  box-shadow: inset 0 0 10px rgba(200, 90, 74, 0.2);
+}
+
+.todo-input:focus {
+  border-color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 15px rgba(248, 184, 0, 0.5);
+  color: #F8B800;
+}
+
+.todo-input::placeholder {
+  color: #5A2A1A;
+}
+
+.input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.add-button {
+  padding: 15px 25px;
+  font-size: 0.7rem;
+  font-family: 'Press Start 2P', monospace;
+  color: #FFF8DC;
+  background: #C85A4A;
+  border: 3px solid #C85A4A;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-transform: uppercase;
+  box-shadow: 
+    0 4px 0 #5A2A1A,
+    0 0 10px rgba(200, 90, 74, 0.5);
+  position: relative;
+  white-space: nowrap;
+}
+
+.add-button:hover {
+  background: #F8B800;
+  border-color: #F8B800;
+  box-shadow: 
+    0 4px 0 #5A2A1A,
+    0 0 15px rgba(248, 184, 0, 0.8);
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 0 #5A2A1A,
+    0 0 15px rgba(248, 184, 0, 0.8);
+}
+
+.add-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 0 0 #5A2A1A,
+    0 0 10px rgba(248, 184, 0, 0.5);
+}
+
+.button-icon {
+  margin-right: 5px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #C85A4A;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #FFF8DC;
+  border-top-color: #C85A4A;
+  border-radius: 0;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px rgba(200, 90, 74, 0.5);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading p {
+  font-size: 0.7rem;
+  margin: 0;
+  text-shadow: 0 0 5px rgba(200, 90, 74, 0.8);
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  transition: all 0.2s;
+  box-shadow: 
+    inset 0 0 10px rgba(200, 90, 74, 0.1),
+    0 0 10px rgba(200, 90, 74, 0.3),
+    0 4px 0 #5A2A1A;
+  animation: slideIn 0.3s ease-out backwards;
+  position: relative;
+}
+
+.todo-item:hover {
+  border-color: #F8B800;
+  box-shadow: 
+    inset 0 0 15px rgba(248, 184, 0, 0.2),
+    0 0 20px rgba(248, 184, 0, 0.5),
+    0 4px 0 #5A2A1A;
+  transform: translateX(5px);
+}
+
+.todo-item.completed {
+  opacity: 0.6;
+  border-color: #666666;
+  box-shadow: inset 0 0 10px rgba(102, 102, 102, 0.2);
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: #666666;
+}
+
+.todo-item.deleting {
+  animation: glitch 0.3s ease-out, fadeOut 0.3s ease-out;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.checkbox-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.todo-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-label {
+  width: 30px;
+  height: 30px;
+  border: 3px solid #C85A4A;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  background: #FFF8DC;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 0 5px rgba(200, 90, 74, 0.3);
+}
+
+.checkbox-label:hover {
+  border-color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 10px rgba(248, 184, 0, 0.5);
+}
+
+.todo-checkbox:checked + .checkbox-label {
+  background: #C85A4A;
+  border-color: #C85A4A;
+  box-shadow: 
+    inset 0 0 10px rgba(255, 255, 255, 0.3),
+    0 0 15px rgba(200, 90, 74, 0.8);
+}
+
+.checkmark {
+  color: #FFF8DC;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: slideIn 0.2s ease-out;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 0.7rem;
+  color: #5A2A1A;
+  cursor: pointer;
+  word-break: break-word;
+  line-height: 1.8;
+  text-shadow: 
+    1px 1px 0 #FFF8DC,
+    0 0 5px rgba(200, 90, 74, 0.5);
+  transition: all 0.2s;
+}
+
+.todo-text:hover {
+  color: #F8B800;
+  text-shadow: 
+    1px 1px 0 #FFF8DC,
+    0 0 10px rgba(248, 184, 0, 0.8);
+}
+
+.edit-form {
+  flex: 1;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.7rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 3px solid #F8B800;
+  border-radius: 0;
+  outline: none;
+  background: #FFF8DC;
+  color: #C85A4A;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 15px rgba(248, 184, 0, 0.5);
+  animation: glitch 0.3s ease-out;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.todo-item:hover .todo-actions {
+  opacity: 1;
+}
+
+.edit-button,
+.delete-button {
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C85A4A;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 2px 0 #5A2A1A;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.edit-button:hover {
+  background: #F8B800;
+  border-color: #F8B800;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #5A2A1A;
+  transform: translateY(2px);
+}
+
+.edit-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #5A2A1A;
+}
+
+.delete-button {
+  border-color: #ff0000;
+  color: #ff0000;
+  box-shadow: 
+    inset 0 0 5px rgba(255, 0, 0, 0.2),
+    0 2px 0 #660000;
+}
+
+.delete-button:hover {
+  background: #ff0000;
+  border-color: #ff0000;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #660000;
+  transform: translateY(2px);
+}
+
+.delete-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #660000;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #C85A4A;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  opacity: 0.7;
+  animation: blink 2s step-end infinite;
+  filter: drop-shadow(0 0 10px rgba(200, 90, 74, 0.8));
+}
+
+.empty-title {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  text-shadow: 0 0 10px rgba(200, 90, 74, 0.8);
+  line-height: 1.8;
+}
+
+.empty-hint {
+  font-size: 0.6rem;
+  color: #5A2A1A;
+  line-height: 1.8;
+}
+
+/* 統計パネル */
+.stats-panel {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 100px;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  padding: 15px;
+  text-align: center;
+  box-shadow: inset 0 0 10px rgba(200, 90, 74, 0.2);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  color: #F8B800;
+  text-shadow: 0 0 10px rgba(248, 184, 0, 0.8);
+  margin-bottom: 5px;
+}
+
+.stat-label-small {
+  font-size: 0.5rem;
+  color: #C85A4A;
+  text-transform: uppercase;
+}
+
+/* コントロールパネル */
+.control-panel {
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 10px rgba(200, 90, 74, 0.2);
+}
+
+.control-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.control-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 15px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  color: #C85A4A;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.filter-btn:hover {
+  background: #C85A4A;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #5A2A1A;
+  transform: translateY(2px);
+}
+
+.filter-btn.active {
+  background: #C85A4A;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(200, 90, 74, 0.8);
+}
+
+.sort-group,
+.search-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  color: #C85A4A;
+  outline: none;
+  box-shadow: inset 0 0 5px rgba(200, 90, 74, 0.2);
+}
+
+.search-input:focus {
+  border-color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 10px rgba(248, 184, 0, 0.5);
+  color: #F8B800;
+}
+
+/* カスタムドロップダウン */
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-button {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  color: #5A2A1A;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 2px 0 #5A2A1A;
+  transition: all 0.2s;
+}
+
+.custom-select-button:hover {
+  border-color: #F8B800;
+  color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 10px rgba(248, 184, 0, 0.5),
+    0 2px 0 #5A2A1A;
+}
+
+.custom-select.open .custom-select-button {
+  border-color: #F8B800;
+  color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 10px rgba(248, 184, 0, 0.5),
+    0 2px 0 #5A2A1A;
+}
+
+.custom-select-arrow {
+  font-size: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.custom-select.open .custom-select-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  box-shadow: 
+    0 4px 20px rgba(200, 90, 74, 0.5),
+    inset 0 0 10px rgba(200, 90, 74, 0.2),
+    0 4px 0 #5A2A1A;
+  z-index: 1000;
+  animation: slideIn 0.2s ease-out;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.custom-select-option {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: none;
+  border-bottom: 1px solid #5A2A1A;
+  color: #5A2A1A;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.1s;
+}
+
+.custom-select-option:last-child {
+  border-bottom: none;
+}
+
+.custom-select-option:hover {
+  background: #C85A4A;
+  color: #FFF8DC;
+  box-shadow: inset 0 0 10px rgba(255, 248, 220, 0.3);
+}
+
+.custom-select-option.selected {
+  background: rgba(200, 90, 74, 0.2);
+  color: #F8B800;
+}
+
+.custom-select-option.selected .checkmark {
+  color: #F8B800;
+  font-size: 0.7rem;
+}
+
+.sort-select.custom-select,
+.filter-select.custom-select {
+  min-width: 150px;
+}
+
+.form-select.custom-select {
+  width: 100%;
+}
+
+.edit-select.custom-select {
+  min-width: 120px;
+}
+
+.search-input::placeholder {
+  color: #5A2A1A;
+}
+
+.toggle-btn {
+  padding: 8px 15px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  color: #C85A4A;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.toggle-btn:hover {
+  background: #C85A4A;
+  color: #FFF8DC;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #5A2A1A;
+}
+
+.batch-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.batch-btn {
+  padding: 8px 12px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #F8B800;
+  color: #F8B800;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 5px rgba(248, 184, 0, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.batch-btn:hover {
+  background: #F8B800;
+  color: #FFF8DC;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #5A2A1A;
+}
+
+/* 追加セクション */
+.add-section {
+  margin-bottom: 25px;
+}
+
+.add-toggle-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 0.7rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  color: #C85A4A;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 
+    inset 0 0 10px rgba(200, 90, 74, 0.2),
+    0 0 10px rgba(200, 90, 74, 0.3);
+}
+
+.add-toggle-btn:hover {
+  background: #C85A4A;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(200, 90, 74, 0.8);
+}
+
+.todo-form-expanded {
+  background: #FFF8DC;
+  border: 3px solid #C85A4A;
+  padding: 20px;
+  box-shadow: inset 0 0 10px rgba(200, 90, 74, 0.2);
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.5rem;
+  color: #C85A4A;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.form-select,
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #C85A4A;
+  color: #C85A4A;
+  outline: none;
+  box-shadow: inset 0 0 5px rgba(200, 90, 74, 0.2);
+}
+
+.form-select:focus,
+.form-input:focus {
+  border-color: #F8B800;
+  box-shadow: 
+    inset 0 0 10px rgba(248, 184, 0, 0.3),
+    0 0 10px rgba(248, 184, 0, 0.5);
+  color: #F8B800;
+}
+
+.form-input::placeholder {
+  color: #5A2A1A;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #ff0000;
+  color: #ff0000;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 5px rgba(255, 0, 0, 0.2),
+    0 2px 0 #660000;
+}
+
+.cancel-button:hover {
+  background: #ff0000;
+  color: #FFF8DC;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #660000;
+}
+
+/* Todoアイテムの拡張スタイル */
+.todo-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.priority-badge,
+.category-badge,
+.due-date-badge,
+.tag-badge {
+  padding: 4px 8px;
+  font-size: 0.5rem;
+  border: 2px solid currentColor;
+  background: #FFF8DC;
+  box-shadow: inset 0 0 5px rgba(200, 90, 74, 0.2);
+  text-transform: uppercase;
+}
+
+.due-date-badge.overdue {
+  color: #ff0000;
+  border-color: #ff0000;
+  animation: blink 1s step-end infinite;
+}
+
+.tags-container {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.tag-badge {
+  color: #C85A4A;
+  border-color: #C85A4A;
+  font-size: 0.45rem;
+}
+
+.todo-item.archived {
+  opacity: 0.5;
+  border-color: #666666;
+}
+
+.edit-form-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.edit-select,
+.edit-input-small {
+  padding: 6px;
+  font-size: 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #FFF8DC;
+  border: 2px solid #F8B800;
+  color: #F8B800;
+  outline: none;
+  box-shadow: inset 0 0 5px rgba(248, 184, 0, 0.2);
+}
+
+.edit-input-small {
+  flex: 1;
+  min-width: 120px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-save-btn,
+.edit-cancel-btn {
+  padding: 6px 12px;
+  font-size: 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.edit-save-btn {
+  background: #FFF8DC;
+  border-color: #C85A4A;
+  color: #C85A4A;
+  box-shadow: 
+    inset 0 0 5px rgba(200, 90, 74, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.edit-save-btn:hover {
+  background: #C85A4A;
+  color: #FFF8DC;
+  transform: translateY(2px);
+}
+
+.edit-cancel-btn {
+  background: #FFF8DC;
+  border-color: #ff0000;
+  color: #ff0000;
+  box-shadow: 
+    inset 0 0 5px rgba(255, 0, 0, 0.2),
+    0 2px 0 #660000;
+}
+
+.edit-cancel-btn:hover {
+  background: #ff0000;
+  color: #FFF8DC;
+  transform: translateY(2px);
+}
+
+.archive-button {
+  background: #FFF8DC;
+  border: 2px solid #F8B800;
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F8B800;
+  box-shadow: 
+    inset 0 0 5px rgba(248, 184, 0, 0.2),
+    0 2px 0 #5A2A1A;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.archive-button:hover {
+  background: #F8B800;
+  border-color: #F8B800;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #5A2A1A;
+  transform: translateY(2px);
+}
+
+.archive-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 0 #5A2A1A;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px 15px;
+    margin-top: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .stats {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .todo-form {
+    flex-direction: column;
+  }
+
+  .add-button {
+    width: 100%;
+  }
+
+  .todo-item {
+    padding: 15px;
+    flex-wrap: wrap;
+  }
+
+  .todo-actions {
+    opacity: 1;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .todo-text {
+    font-size: 0.6rem;
+  }
+
+  .control-panel {
+    padding: 15px;
+  }
+
+  .control-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group,
+  .batch-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats-panel {
+    flex-direction: column;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .todo-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ゲームボタン */
+.game-button {
+  padding: 10px 20px;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #F8B800;
+  border: 3px solid #C85A4A;
+  color: #5A2A1A;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 4px 0 #5A2A1A;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.game-button:hover {
+  background: #FFD700;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.game-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 0 0 #5A2A1A;
+}
+
+/* ミニゲームオーバーレイ */
+.mini-game-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.mini-game-container {
+  background: #FFF8DC;
+  border: 4px solid #C85A4A;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  padding: 30px;
+  box-shadow: 
+    0 0 30px rgba(200, 90, 74, 0.8),
+    inset 0 0 20px rgba(200, 90, 74, 0.1),
+    0 8px 0 #5A2A1A;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #C85A4A;
+  padding-bottom: 15px;
+}
+
+.game-title {
+  font-size: 1.2rem;
+  color: #FFF8DC;
+  text-shadow: 
+    2px 2px 0 #5A2A1A,
+    4px 4px 0 #3D1A0A;
+  margin: 0;
+}
+
+.game-close-btn {
+  background: #C85A4A;
+  border: 3px solid #C85A4A;
+  color: #FFF8DC;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 4px 0 #5A2A1A;
+  transition: all 0.1s;
+  font-family: 'Press Start 2P', monospace;
+  line-height: 1;
+}
+
+.game-close-btn:hover {
+  background: #B85A4A;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #5A2A1A;
+}
+
+/* ゲーム開始画面 */
+.game-start-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.game-instructions {
+  margin-bottom: 30px;
+}
+
+.instruction-title {
+  font-size: 0.9rem;
+  color: #C85A4A;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 0 #5A2A1A;
+}
+
+.instruction-text {
+  font-size: 0.7rem;
+  color: #5A2A1A;
+  margin-bottom: 15px;
+  line-height: 1.8;
+}
+
+.game-start-btn {
+  padding: 15px 40px;
+  font-size: 0.8rem;
+  font-family: 'Press Start 2P', monospace;
+  background: #F8B800;
+  border: 3px solid #C85A4A;
+  color: #5A2A1A;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 4px 0 #5A2A1A;
+  text-transform: uppercase;
+}
+
+.game-start-btn:hover {
+  background: #FFD700;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.game-start-btn:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 0 0 #5A2A1A;
+}
+
+/* ゲーム画面 */
+.game-screen {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(to bottom, #6BB3FF 0%, #7FC8F8 50%, #A8E6FF 100%);
+  border: 3px solid #C85A4A;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: inset 0 0 20px rgba(200, 90, 74, 0.2);
+}
+
+.game-score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 0.8rem;
+  color: #FFF8DC;
+  text-shadow: 
+    2px 2px 0 #5A2A1A,
+    0 0 10px rgba(248, 184, 0, 0.8);
+  z-index: 10;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.game-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 31px,
+      #5A2A1A 31px,
+      #5A2A1A 33px,
+      transparent 33px,
+      transparent 64px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 19px,
+      #5A2A1A 19px,
+      #5A2A1A 21px,
+      transparent 21px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #C85A4A 0px,
+      #C85A4A 32px,
+      #B85A4A 32px,
+      #B85A4A 64px
+    );
+  background-size:
+    64px 40px,
+    100% 40px,
+    64px 40px;
+  z-index: 1;
+}
+
+.game-player {
+  position: absolute;
+  left: 100px;
+  width: 48px; /* キャラクターの実際の幅（6列 × 8px、横のボリューム含む） */
+  z-index: 5;
+  transition: transform 0.05s linear;
+  image-rendering: pixelated;
+  /* キャラクターの最下部（足）が地面の上端に来るようにする */
+  /* bottom: 40px で配置されているので、キャラクターの最下部が地面の上端（40px）に来る */
+}
+
+.player-body {
+  width: 8px;
+  height: 8px;
+  position: relative;
+  image-rendering: pixelated;
+  /* 基準ピクセル（左上） */
+  background: #A0522D;
+}
+
+/* ピクセル単位で正確にトレース - 画像をそのまま再現 */
+.player-body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #A0522D;
+  /* 髪の毛のピクセルを配置（より正確な形状） */
+  box-shadow: 
+    /* 1行目: 髪の毛（頭のてっぺん） */
+    8px 0 #A0522D,
+    16px 0 #A0522D,
+    24px 0 #A0522D,
+    32px 0 #A0522D,
+    /* 2行目: 髪の毛 + 顔の上端 */
+    0 8px #A0522D,
+    8px 8px #FFDBAC,
+    16px 8px #FFDBAC,
+    24px 8px #FFDBAC,
+    32px 8px #A0522D,
+    /* 3行目: 髪の毛 + 顔 */
+    0 16px #A0522D,
+    8px 16px #FFDBAC,
+    16px 16px #FFDBAC,
+    24px 16px #FFDBAC,
+    32px 16px #A0522D,
+    /* 4行目: 髪の毛 + 顔 + 目 */
+    0 24px #A0522D,
+    8px 24px #FFDBAC,
+    16px 24px #8B4513, /* 左目 */
+    24px 24px #8B4513, /* 右目 */
+    32px 24px #A0522D,
+    /* 5行目: 髪の毛 + 顔 + 服の上端 */
+    0 32px #A0522D,
+    8px 32px #FFDBAC,
+    16px 32px #008080, /* 青緑色の服 */
+    24px 32px #008080,
+    32px 32px #A0522D,
+    /* 6行目: 髪の毛 + 服 + 白いボタン */
+    0 40px #A0522D,
+    8px 40px #008080,
+    16px 40px #FFFFFF, /* 白いボタン（胸の中央） */
+    24px 40px #008080,
+    32px 40px #A0522D,
+    /* 7行目: 髪の毛 + 服 + 手（腰のあたり） */
+    0 48px #A0522D,
+    8px 48px #FFDBAC, /* 左手（肌色） */
+    16px 48px #008080,
+    24px 48px #008080,
+    32px 48px #FFDBAC, /* 右手（肌色） */
+    40px 48px #A0522D,
+    /* 8行目: ズボン（濃い茶色） */
+    0 56px #5A2A1A,
+    8px 56px #5A2A1A,
+    16px 56px #5A2A1A,
+    24px 56px #5A2A1A,
+    32px 56px #5A2A1A,
+    40px 56px #5A2A1A,
+    /* 9行目: 靴（足が少し開いた形状） */
+    0 64px #5A2A1A,
+    8px 64px #5A2A1A,
+    16px 64px transparent,
+    24px 64px transparent,
+    32px 64px #5A2A1A,
+    40px 64px #5A2A1A;
+}
+
+/* 髪の毛のボリューム部分を追加（頭の周りに少し乱れた形状） */
+.player-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  /* 髪の毛の横のボリューム（左右に広がる） */
+  box-shadow: 
+    -8px 8px #A0522D,
+    -8px 16px #A0522D,
+    -8px 24px #A0522D,
+    -8px 32px #A0522D,
+    48px 8px #A0522D,
+    48px 16px #A0522D,
+    48px 24px #A0522D,
+    48px 32px #A0522D;
+}
+
+.game-obstacle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 4;
+}
+
+.obstacle-body {
+  width: 100%;
+  height: 100%;
+  background: #5A2A1A;
+  border: 3px solid #3D1A0A;
+  position: relative;
+  box-shadow: 
+    inset 0 0 5px rgba(0, 0, 0, 0.5),
+    2px 2px 0 #3D1A0A;
+}
+
+.obstacle-body::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 6px;
+  height: 6px;
+  background: #8B4513;
+  border: 2px solid #3D1A0A;
+  box-shadow: 8px 0 0 #8B4513, 8px 0 0 2px #3D1A0A;
+}
+
+.obstacle-body::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 8px;
+  width: 14px;
+  height: 6px;
+  background: #3D1A0A;
+  border: 2px solid #1A0A00;
+}
+
+@keyframes obstacleMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-3px);
+  }
+}
+
+.game-hint {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  color: #FFF8DC;
+  text-shadow: 2px 2px 0 #5A2A1A;
+  font-family: 'Press Start 2P', monospace;
+  opacity: 0.7;
+  animation: blink 2s step-end infinite;
+}
+
+/* ゲームオーバー画面 */
+.game-over-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.game-over-title {
+  font-size: 1.5rem;
+  color: #C85A4A;
+  margin-bottom: 20px;
+  text-shadow: 
+    2px 2px 0 #FFF8DC,
+    4px 4px 0 #5A2A1A;
+  animation: glitch 0.5s ease-in-out;
+}
+
+.game-final-score {
+  font-size: 1rem;
+  color: #F8B800;
+  margin-bottom: 20px;
+  text-shadow: 
+    1px 1px 0 #5A2A1A,
+    0 0 10px rgba(248, 184, 0, 0.8);
+}
+
+.game-over-message {
+  font-size: 0.8rem;
+  color: #5A2A1A;
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.game-restart-btn,
+.game-close-btn-bottom {
+  padding: 12px 30px;
+  font-size: 0.7rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 3px solid;
+  cursor: pointer;
+  transition: all 0.1s;
+  margin: 10px;
+  text-transform: uppercase;
+}
+
+.game-restart-btn {
+  background: #F8B800;
+  border-color: #C85A4A;
+  color: #5A2A1A;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 4px 0 #5A2A1A;
+}
+
+.game-restart-btn:hover {
+  background: #FFD700;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.2),
+    0 2px 0 #5A2A1A;
+}
+
+.game-close-btn-bottom {
+  background: #C85A4A;
+  border-color: #C85A4A;
+  color: #FFF8DC;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 4px 0 #5A2A1A;
+}
+
+.game-close-btn-bottom:hover {
+  background: #B85A4A;
+  transform: translateY(2px);
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 2px 0 #5A2A1A;
+}

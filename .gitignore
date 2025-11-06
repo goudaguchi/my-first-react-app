@@ -1,0 +1,11 @@
+node_modules/
+client/node_modules/
+server/node_modules/
+server/todos.db
+server/todos.db-journal
+.DS_Store
+*.log
+.env
+build/
+dist/
+
